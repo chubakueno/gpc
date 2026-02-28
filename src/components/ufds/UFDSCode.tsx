@@ -93,6 +93,60 @@ int main() {
     return 0;
 }`;
 
+const CODE_COMPRESSION = `#include <bits/stdc++.h>
+using namespace std;
+
+// UFDS with path compression only (no rank)
+// Each find() flattens all nodes on the path directly to the root.
+// Amortized O(log n) per operation (worse than full UFDS but much better than naive).
+struct UFDS {
+    vector<int> parent;
+
+    UFDS(int n) : parent(n) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    // Recursive path compression:
+    // After find(x) returns, parent[x] is set directly to the root.
+    // Every node on the find-path gets "short-circuited" in one call.
+    int find(int x) {
+        if (parent[x] != x)
+            parent[x] = find(parent[x]);  // ← flatten on the way back up
+        return parent[x];
+    }
+
+    bool same_set(int x, int y) {
+        return find(x) == find(y);
+    }
+
+    // Naive union: always attach x's root under y's root.
+    // Without rank, repeated naive unions can create tall chains,
+    // but compression still flattens them on the next find().
+    void unite(int x, int y) {
+        parent[find(x)] = find(y);
+    }
+};
+
+int main() {
+    // Build a worst-case chain: 0→1→2→3→4→5
+    UFDS dsu(6);
+    dsu.unite(0, 1);  // 0's root (0) → 1
+    dsu.unite(1, 2);  // 1's root (1) → 2
+    dsu.unite(2, 3);  // chain: 0→1→2→3
+    dsu.unite(3, 4);
+    dsu.unite(4, 5);
+
+    // First find(0): walks 0→1→2→3→4→5, then compresses: parent[0..4] = 5
+    cout << dsu.find(0) << "\\n";  // 5 (root)
+
+    // After compression, parent[0] = 5 directly — O(1) next time
+    cout << dsu.find(0) << "\\n";  // 5, one hop
+
+    cout << dsu.same_set(0, 5) << "\\n";  // 1
+
+    return 0;
+}`;
+
 const CODE_FULL = `#include <bits/stdc++.h>
 using namespace std;
 
@@ -166,12 +220,17 @@ export function UFDSCode() {
   const [activeTab, setActiveTab] = useState("full");
 
   const tabs = [
-    { id: "basic", label: t("ufds.code.tab.basic") },
-    { id: "rank", label: t("ufds.code.tab.rank") },
-    { id: "full", label: t("ufds.code.tab.full") },
+    { id: "basic",       label: t("ufds.code.tab.basic") },
+    { id: "rank",        label: t("ufds.code.tab.rank") },
+    { id: "compression", label: t("ufds.code.tab.compression") },
+    { id: "full",        label: t("ufds.code.tab.full") },
   ];
 
-  const code = activeTab === "basic" ? CODE_BASIC : activeTab === "rank" ? CODE_RANK : CODE_FULL;
+  const code =
+    activeTab === "basic"       ? CODE_BASIC :
+    activeTab === "rank"        ? CODE_RANK :
+    activeTab === "compression" ? CODE_COMPRESSION :
+                                  CODE_FULL;
 
   return (
     <SectionCard>

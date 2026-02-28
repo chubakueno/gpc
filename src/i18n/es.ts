@@ -436,6 +436,7 @@ export const translations: Record<TranslationKey, string> = {
   "ufds.code.title": "Implementación en C++",
   "ufds.code.tab.basic": "Básico",
   "ufds.code.tab.rank": "Unión por Rango",
+  "ufds.code.tab.compression": "Compresión de Caminos",
   "ufds.code.tab.full": "Completo (Ambos)",
 
   // Shared

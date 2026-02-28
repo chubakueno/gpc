@@ -434,6 +434,7 @@ export const translations = {
   "ufds.code.title": "C++ Implementation",
   "ufds.code.tab.basic": "Basic",
   "ufds.code.tab.rank": "Union by Rank",
+  "ufds.code.tab.compression": "Path Compression",
   "ufds.code.tab.full": "Full (Both)",
 
   // Shared
