@@ -5,6 +5,7 @@ export const translations: Record<TranslationKey, string> = {
   "nav.home": "Inicio",
   "nav.hashing": "Hashing",
   "nav.ufds": "Union-Find",
+  "nav.mst": "MST",
   "nav.lang": "EN",
 
   // Home page
@@ -14,6 +15,8 @@ export const translations: Record<TranslationKey, string> = {
   "home.card.hashing.desc": "Hashing polinomial Rabin-Karp: normal y rolling. Incluye paradoja del cumpleaños y calculadora de probabilidad de colisión.",
   "home.card.ufds.title": "Union-Find (UFDS)",
   "home.card.ufds.desc": "Conjuntos disjuntos con compresión de caminos y unión por rango/tamaño. Visualización gráfica interactiva.",
+  "home.card.mst.title": "Árbol de Expansión Mínima",
+  "home.card.mst.desc": "Algoritmos de Kruskal y Prim con visualización interactiva paso a paso, demostración de la propiedad del corte e implementaciones en C++.",
   "home.explore": "Explorar →",
 
   // Hashing page
@@ -204,6 +207,67 @@ export const translations: Record<TranslationKey, string> = {
   "hashing.birthday.sim.itemsAdded": "Elementos añadidos:",
   "hashing.birthday.sim.uniqueBins": "Cubetas únicas:",
   "hashing.birthday.threshold.display": "Umbral 50%: k ≈ {k} (con P = {p})",
+
+  // MST page
+  "mst.title": "Árbol de Expansión Mínima",
+  "mst.subtitle": "Algoritmos de Kruskal y Prim — construcción greedy del MST con demostraciones formales de corrección.",
+  "mst.tab.kruskal": "Kruskal",
+  "mst.tab.prim": "Prim",
+  "mst.tab.proof": "Demostración",
+  "mst.tab.code": "Código C++",
+
+  // MST compartido
+  "mst.graph.randomize": "Aleatorizar Pesos",
+  "mst.legend.mst": "Arista del MST",
+  "mst.legend.rejected": "Rechazada",
+  "mst.legend.considering": "Considerando",
+  "mst.legend.candidate": "Candidata",
+  "mst.mst.weight": "Peso total del MST",
+
+  // Demo de Kruskal
+  "mst.kruskal.title": "Algoritmo de Kruskal",
+  "mst.kruskal.desc": "Ordena todas las aristas por peso. Agrega greedily cada arista que no cree un ciclo (verificado con Union-Find). Detente tras n−1 aristas.",
+  "mst.kruskal.sorted.title": "Aristas ordenadas",
+  "mst.kruskal.step.initial": "Grafo listo — aristas ordenadas por peso. Avanza paso a paso para ejecutar Kruskal.",
+  "mst.kruskal.step.accept": "Arista {u}—{v} (w={w}): aceptada ✓ conecta dos componentes distintos",
+  "mst.kruskal.step.reject": "Arista {u}—{v} (w={w}): rechazada ✗ crearía un ciclo",
+  "mst.kruskal.step.done": "MST completo — {k} aristas, peso total {w}",
+
+  // Demo de Prim
+  "mst.prim.title": "Algoritmo de Prim",
+  "mst.prim.desc": "Construye el MST desde un nodo inicial. Extiende siempre con la arista de menor peso que conecta el árbol actual a un nuevo vértice.",
+  "mst.prim.start.label": "Nodo inicial",
+  "mst.prim.pq.title": "Cola de prioridad (menor peso primero)",
+  "mst.prim.pq.empty": "Cola vacía",
+  "mst.prim.step.initial": "Nodo {v} agregado como vértice inicial",
+  "mst.prim.step.add": "Arista {u}—{v} (w={w}): agregada ✓ el nodo {v} se une al MST",
+  "mst.prim.step.done": "MST completo — {n} nodos alcanzados, peso total {w}",
+
+  // Demostración MST
+  "mst.proof.title": "Corrección: Propiedades del Corte y del Ciclo",
+  "mst.proof.subtitle": "Dos teoremas fundamentales que garantizan que el enfoque greedy siempre produce un árbol de expansión mínima válido.",
+  "mst.proof.summary": "Resultado Clave",
+  "mst.proof.summary.body": "Tanto Kruskal como Prim son correctos porque cada arista que agregan satisface la Propiedad del Corte — siempre es seguro agregarla.",
+  "mst.proof.cut.title": "Propiedad del Corte",
+  "mst.proof.cut.def": "Un corte (S, V∖S) divide los vértices en dos conjuntos no vacíos. Una arista de cruce tiene un extremo en S y otro en V∖S.",
+  "mst.proof.cut.theorem": "Teorema: Para cualquier corte del grafo, la arista de cruce de menor peso pertenece a algún MST.",
+  "mst.proof.cut.proof": "Demostración (argumento de intercambio): Sea e* la arista de cruce mínima. Supón que algún MST T no contiene e*. Como T es un árbol de expansión, debe contener otra arista de cruce e (con w(e) ≥ w(e*)). Reemplaza e por e* en T — el resultado sigue siendo un árbol de expansión (e* reconecta las dos mitades) y su peso total es ≤ al de T. Si w(e*) < w(e) esto contradice que T sea un MST. Por lo tanto e* debe pertenecer a algún MST. ∎",
+  "mst.proof.cycle.title": "Propiedad del Ciclo",
+  "mst.proof.cycle.theorem": "Teorema: Para cualquier ciclo C, la arista de mayor peso en C no pertenece a ningún MST (asumiendo pesos distintos).",
+  "mst.proof.cycle.proof": "Demostración: Supón que la arista e = (u,v) con máximo peso en el ciclo C está en el MST T. Eliminar e divide T en dos subárboles. Pero C proporciona otro camino de u a v mediante aristas más ligeras — cualquiera de ellas es un reemplazo válido que produce un árbol de expansión con menor peso. Contradicción. ∎",
+  "mst.proof.kruskal.title": "Por qué Kruskal es Correcto",
+  "mst.proof.kruskal.body": "Cuando Kruskal considera la arista e = (u, v), el corte es (componente de u, resto). La arista e es la arista de cruce mínima para este corte (todas las aristas más ligeras ya fueron procesadas). Por la Propiedad del Corte, e es segura. Las aristas rechazadas completan un ciclo — por la Propiedad del Ciclo, se excluyen correctamente.",
+  "mst.proof.prim.title": "Por qué Prim es Correcto",
+  "mst.proof.prim.body": "En cada paso, el árbol actual T forma un lado del corte (T, V∖T). Prim siempre selecciona la arista de cruce de menor peso. Por la Propiedad del Corte, esta arista es segura. Prim es esencialmente una implementación directa de la Propiedad del Corte.",
+  "mst.proof.table.title": "Comparación de Complejidades",
+  "mst.proof.table.algorithm": "Algoritmo",
+  "mst.proof.table.time": "Tiempo",
+  "mst.proof.table.notes": "Notas / Estructura de datos",
+
+  // Código MST
+  "mst.code.title": "Implementación en C++",
+  "mst.code.tab.kruskal": "Kruskal",
+  "mst.code.tab.prim": "Prim",
 
   // UFDS code
   "ufds.code.title": "Implementación en C++",

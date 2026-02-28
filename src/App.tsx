@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const HashingPage = lazy(() => import("@/components/hashing/HashingPage"));
 const UFDSPage = lazy(() => import("@/components/ufds/UFDSPage"));
+const MSTPage = lazy(() => import("@/components/mst/MSTPage"));
 
 function Layout() {
   return (
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/hashing", element: <HashingPage /> },
       { path: "/ufds", element: <UFDSPage /> },
+      { path: "/mst", element: <MSTPage /> },
     ],
   },
 ]);

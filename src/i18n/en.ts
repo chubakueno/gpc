@@ -3,6 +3,7 @@ export const translations = {
   "nav.home": "Home",
   "nav.hashing": "Hashing",
   "nav.ufds": "Union-Find",
+  "nav.mst": "MST",
   "nav.lang": "ES",
 
   // Home page
@@ -12,6 +13,8 @@ export const translations = {
   "home.card.hashing.desc": "Rabin-Karp hashing: normal and rolling. Includes birthday paradox demo and collision probability calculator.",
   "home.card.ufds.title": "Union-Find (UFDS)",
   "home.card.ufds.desc": "Disjoint set union with path compression and union by rank/size. Interactive graph visualization.",
+  "home.card.mst.title": "Minimum Spanning Tree",
+  "home.card.mst.desc": "Kruskal and Prim algorithms with interactive step-by-step visualization, cut property proof, and C++ implementations.",
   "home.explore": "Explore →",
 
   // Hashing page
@@ -202,6 +205,67 @@ export const translations = {
   "hashing.birthday.sim.itemsAdded": "Items added:",
   "hashing.birthday.sim.uniqueBins": "Unique bins:",
   "hashing.birthday.threshold.display": "50% threshold: k ≈ {k} (with P = {p})",
+
+  // MST page
+  "mst.title": "Minimum Spanning Tree",
+  "mst.subtitle": "Kruskal and Prim algorithms — greedy MST construction with formal correctness proofs.",
+  "mst.tab.kruskal": "Kruskal",
+  "mst.tab.prim": "Prim",
+  "mst.tab.proof": "Proof",
+  "mst.tab.code": "C++ Code",
+
+  // MST shared
+  "mst.graph.randomize": "Randomize Weights",
+  "mst.legend.mst": "MST edge",
+  "mst.legend.rejected": "Rejected",
+  "mst.legend.considering": "Considering",
+  "mst.legend.candidate": "Candidate",
+  "mst.mst.weight": "MST total weight",
+
+  // Kruskal demo
+  "mst.kruskal.title": "Kruskal's Algorithm",
+  "mst.kruskal.desc": "Sort all edges by weight. Greedily add each edge if it doesn't create a cycle (checked with Union-Find). Stop after n−1 edges.",
+  "mst.kruskal.sorted.title": "Sorted edges",
+  "mst.kruskal.step.initial": "Graph ready — edges sorted by weight. Step through to run Kruskal's.",
+  "mst.kruskal.step.accept": "Edge {u}—{v} (w={w}): accepted ✓ connects two different components",
+  "mst.kruskal.step.reject": "Edge {u}—{v} (w={w}): rejected ✗ would create a cycle",
+  "mst.kruskal.step.done": "MST complete — {k} edges, total weight {w}",
+
+  // Prim demo
+  "mst.prim.title": "Prim's Algorithm",
+  "mst.prim.desc": "Grow the MST from a starting node. Always extend by the minimum weight edge connecting the current tree to a new vertex.",
+  "mst.prim.start.label": "Starting node",
+  "mst.prim.pq.title": "Priority queue (min-weight first)",
+  "mst.prim.pq.empty": "Queue empty",
+  "mst.prim.step.initial": "Node {v} added as starting vertex",
+  "mst.prim.step.add": "Edge {u}—{v} (w={w}): added ✓ node {v} joins MST",
+  "mst.prim.step.done": "MST complete — all {n} nodes reached, total weight {w}",
+
+  // MST proof
+  "mst.proof.title": "Correctness: Cut & Cycle Properties",
+  "mst.proof.subtitle": "Two fundamental theorems that guarantee the greedy approach always produces a valid minimum spanning tree.",
+  "mst.proof.summary": "Key Result",
+  "mst.proof.summary.body": "Both Kruskal's and Prim's are correct because every edge they add satisfies the Cut Property — it is always safe to add.",
+  "mst.proof.cut.title": "Cut Property",
+  "mst.proof.cut.def": "A cut (S, V∖S) partitions the vertices into two non-empty sets. A crossing edge has one endpoint in S and one in V∖S.",
+  "mst.proof.cut.theorem": "Theorem: For any cut of the graph, the minimum weight crossing edge belongs to some MST.",
+  "mst.proof.cut.proof": "Proof (exchange argument): Let e* be the minimum crossing edge. Suppose some MST T does not contain e*. Since T is a spanning tree, T must contain some other crossing edge e (with w(e) ≥ w(e*)). Replace e with e* in T — the result is still a spanning tree (e* reconnects the two halves), and its total weight is ≤ that of T. If w(e*) < w(e) this contradicts T being an MST. So e* must belong to some MST. ∎",
+  "mst.proof.cycle.title": "Cycle Property",
+  "mst.proof.cycle.theorem": "Theorem: For any cycle C, the maximum weight edge in C does not belong to any MST (assuming distinct weights).",
+  "mst.proof.cycle.proof": "Proof: Suppose edge e = (u,v) with maximum weight in cycle C is in MST T. Removing e splits T into two subtrees. But C provides another path from u to v through lighter edges — any of those edges is a valid replacement that produces a spanning tree with smaller weight. Contradiction. ∎",
+  "mst.proof.kruskal.title": "Why Kruskal's is Correct",
+  "mst.proof.kruskal.body": "When Kruskal considers edge e = (u, v), the cut is (component of u, rest). Edge e is the minimum crossing edge for this cut (all lighter edges were already processed and either added or rejected for crossing the same cut). By the Cut Property, e is safe to add. Rejected edges complete a cycle — by the Cycle Property, they're correctly excluded.",
+  "mst.proof.prim.title": "Why Prim's is Correct",
+  "mst.proof.prim.body": "At each step, the current tree T forms one side of the cut (T, V∖T). Prim always selects the minimum weight crossing edge. By the Cut Property, this edge is safe to add. Prim is essentially a direct implementation of the Cut Property.",
+  "mst.proof.table.title": "Complexity Comparison",
+  "mst.proof.table.algorithm": "Algorithm",
+  "mst.proof.table.time": "Time",
+  "mst.proof.table.notes": "Notes / Data structure",
+
+  // MST code
+  "mst.code.title": "C++ Implementation",
+  "mst.code.tab.kruskal": "Kruskal",
+  "mst.code.tab.prim": "Prim",
 
   // UFDS code
   "ufds.code.title": "C++ Implementation",
