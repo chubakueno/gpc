@@ -15,7 +15,7 @@ export function AckermannSketch() {
       {/* Main result box */}
       <div className="mb-8 p-4 rounded-xl bg-[var(--color-accent-2)]/10 border border-[var(--color-accent-2)]/30">
         <p className="text-sm text-[var(--color-text)] font-medium mb-3">Tarjan-Hopcroft (1975)</p>
-        <MathBlock math="T(n) = O(n \\cdot \\alpha(n))" />
+        <MathBlock math="T(n) = O(n \cdot \alpha(n))" />
         <p className="text-xs text-[var(--color-muted)] mt-2">
           where α(n) is the inverse Ackermann function. For all practical inputs, α(n) ≤ 4.
         </p>
@@ -72,7 +72,7 @@ export function AckermannSketch() {
             The inverse Ackermann function α(n) is the smallest m such that A(m, m) ≥ n.
           </p>
           <div className="overflow-x-auto mb-3">
-            <MathBlock math="\\alpha(n) = \\min\\{m \\mid A(m, m) \\geq n\\}" />
+            <MathBlock math="\alpha(n) = \min\{m \mid A(m, m) \geq n\}" />
           </div>
           <div className="overflow-x-auto">
             <table className="text-sm w-full">
@@ -116,7 +116,7 @@ export function AckermannSketch() {
             <li>The total work across all find operations, across all nodes in all rank blocks, sums to O(n α(n)).</li>
           </ol>
           <div className="overflow-x-auto">
-            <MathBlock math="\\sum_{\\text{all finds}} \\text{path length} = O(n \\cdot \\alpha(n))" />
+            <MathBlock math="\sum_{\text{all finds}} \text{path length} = O(n \cdot \alpha(n))" />
           </div>
         </div>
 
@@ -128,7 +128,7 @@ export function AckermannSketch() {
             The amortized cost per operation is so small it never matters. Use it freely.
           </p>
           <div className="mt-3 overflow-x-auto">
-            <MathBlock math="\\alpha(10^{18}) = 4 \\quad \\Rightarrow \\quad \\text{4 steps, always}" />
+            <MathBlock math="\alpha(10^{18}) = 4 \quad \Rightarrow \quad \text{4 steps, always}" />
           </div>
         </div>
 

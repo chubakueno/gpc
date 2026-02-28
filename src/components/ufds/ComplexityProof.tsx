@@ -59,7 +59,7 @@ export function ComplexityProof() {
       {/* Summary box */}
       <div className="mb-8 p-4 rounded-xl bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/30">
         <p className="text-sm text-[var(--color-text)] font-medium mb-3">Key Insight</p>
-        <MathBlock math="\\text{Union by rank} \\Rightarrow \\text{tree height} \\leq \\lfloor \\log_2 n \\rfloor \\Rightarrow \\text{find} = O(\\log n)" />
+        <MathBlock math="\text{Union by rank} \Rightarrow \text{tree height} \leq \lfloor \log_2 n \rfloor \Rightarrow \text{find} = O(\log n)" />
       </div>
 
       {/* Proof steps */}
