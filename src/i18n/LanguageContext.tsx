@@ -24,6 +24,11 @@ const LanguageContext = createContext<LanguageContextValue>({
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
+    const param = new URLSearchParams(window.location.search).get("lang");
+    if (param === "en" || param === "es") {
+      localStorage.setItem("gpc-lang", param);
+      return param;
+    }
     const stored = localStorage.getItem("gpc-lang");
     return stored === "en" ? "en" : "es";
   });
