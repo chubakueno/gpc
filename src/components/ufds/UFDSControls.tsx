@@ -93,15 +93,15 @@ export function UFDSControls({
       <div className="flex flex-wrap gap-4 text-xs text-[var(--color-muted)]">
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[var(--color-accent)]" />
-          Root node
+          {t("ufds.controls.legend.root")}
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[var(--color-warn)]" />
-          Path (finding)
+          {t("ufds.controls.legend.path")}
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[var(--color-accent-3)]" />
-          Drag target
+          {t("ufds.controls.legend.target")}
         </div>
       </div>
     </div>

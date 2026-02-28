@@ -136,7 +136,7 @@ function ProbabilityCurve({ modulus }: { modulus: number }) {
         <MathBlock math={`P(\\text{collision among } k) \\approx 1 - e^{-k(k-1)/2P}`} />
         {k50 && (
           <p className="text-sm text-[var(--color-warn)] mt-2">
-            50% threshold: k ≈ {k50.k} (with P = {modulus})
+            {t("hashing.birthday.threshold.display", { k: k50.k, p: modulus })}
           </p>
         )}
       </div>
@@ -262,11 +262,11 @@ function BinSimulation({ modulus }: { modulus: number }) {
       {/* Stats */}
       <div className="flex items-center gap-6 mb-4 text-sm">
         <div>
-          <span className="text-[var(--color-muted)]">Items added: </span>
+          <span className="text-[var(--color-muted)]">{t("hashing.birthday.sim.itemsAdded")} </span>
           <span className="font-mono text-[var(--color-accent)]">{items}</span>
         </div>
         <div>
-          <span className="text-[var(--color-muted)]">Unique bins: </span>
+          <span className="text-[var(--color-muted)]">{t("hashing.birthday.sim.uniqueBins")} </span>
           <span className="font-mono text-[var(--color-accent-2)]">{bins.size}</span>
         </div>
         {firstCollision !== null && (

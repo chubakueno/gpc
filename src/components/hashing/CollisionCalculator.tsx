@@ -148,7 +148,7 @@ export function CollisionCalculator() {
                 className="p-4 rounded-xl bg-[var(--color-surface-2)] border border-[var(--color-border)] fade-in overflow-x-auto"
               >
                 <div className="text-xs text-[var(--color-muted)] mb-1">
-                  {["Exact formula", "Log approximation (ln(1−x) ≈ −x)", "Exponentiate", "Result"][i]}
+                  {[t("hashing.calc.step.exact"), t("hashing.calc.step.log"), t("hashing.calc.step.exp"), t("hashing.calc.step.result")][i]}
                 </div>
                 <MathBlock math={math} />
               </div>
@@ -178,7 +178,7 @@ export function CollisionCalculator() {
               />
             </div>
             <p className="text-xs text-[var(--color-muted)] mt-1">
-              {prob < 0.01 ? "Very safe ✓" : prob < 0.5 ? "Moderate risk ⚠" : "High risk ✗"}
+              {prob < 0.01 ? t("hashing.calc.risk.safe") : prob < 0.5 ? t("hashing.calc.risk.moderate") : t("hashing.calc.risk.high")}
             </p>
           </div>
         </div>

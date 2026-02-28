@@ -25,7 +25,7 @@ const LanguageContext = createContext<LanguageContextValue>({
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     const stored = localStorage.getItem("gpc-lang");
-    return stored === "es" ? "es" : "en";
+    return stored === "en" ? "en" : "es";
   });
 
   const setLang = useCallback((l: Lang) => {
