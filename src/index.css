@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@theme {
+  --color-bg: #0f1117;
+  --color-surface: #1a1d27;
+  --color-surface-2: #22263a;
+  --color-surface-3: #2d3148;
+  --color-accent: #7c6af7;
+  --color-accent-hover: #6b5ce6;
+  --color-accent-2: #38bdf8;
+  --color-accent-3: #34d399;
+  --color-warn: #f59e0b;
+  --color-danger: #f87171;
+  --color-text: #e2e8f0;
+  --color-muted: #64748b;
+  --color-border: #2d3148;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* KaTeX overrides for dark theme */
+.katex {
+  color: var(--color-text) !important;
+}
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+/* UFDS edge animations */
+@keyframes drawEdge {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeEdge {
+  0%   { stroke: var(--color-warn); stroke-width: 3; opacity: 1; }
+  100% { stroke: transparent; stroke-width: 0; opacity: 0; }
+}
+
+@keyframes pulseNode {
+  0%, 100% { r: 20; }
+  50% { r: 24; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.edge-new {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 0;
+  animation: drawEdge 0.4s ease forwards;
+}
+
+.edge-compressing {
+  animation: fadeEdge 0.5s ease forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.slide-in {
+  animation: slideIn 0.25s ease forwards;
+}
+
+/* Code block reset */
+.prism-code {
+  font-family: var(--font-mono) !important;
+}
