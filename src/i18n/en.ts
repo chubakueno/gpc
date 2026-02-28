@@ -1,6 +1,8 @@
 export const translations = {
   // Navigation
   "nav.home": "Home",
+  "nav.strings": "Strings",
+  "nav.graphs": "Graphs",
   "nav.hashing": "Hashing",
   "nav.ufds": "Union-Find",
   "nav.mst": "MST",
@@ -16,6 +18,8 @@ export const translations = {
   "home.card.mst.title": "Minimum Spanning Tree",
   "home.card.mst.desc": "Kruskal and Prim algorithms with interactive step-by-step visualization, cut property proof, and C++ implementations.",
   "home.explore": "Explore →",
+  "home.category.strings": "Strings",
+  "home.category.graphs": "Graphs & Trees",
 
   // Hashing page
   "hashing.title": "String Hashing",

@@ -3,6 +3,8 @@ import type { TranslationKey } from "./en";
 export const translations: Record<TranslationKey, string> = {
   // Navigation
   "nav.home": "Inicio",
+  "nav.strings": "Cadenas",
+  "nav.graphs": "Grafos",
   "nav.hashing": "Hashing",
   "nav.ufds": "Union-Find",
   "nav.mst": "MST",
@@ -18,6 +20,8 @@ export const translations: Record<TranslationKey, string> = {
   "home.card.mst.title": "Árbol de Expansión Mínima",
   "home.card.mst.desc": "Algoritmos de Kruskal y Prim con visualización interactiva paso a paso, demostración de la propiedad del corte e implementaciones en C++.",
   "home.explore": "Explorar →",
+  "home.category.strings": "Cadenas",
+  "home.category.graphs": "Grafos y Árboles",
 
   // Hashing page
   "hashing.title": "Hashing de Cadenas",
