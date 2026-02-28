@@ -72,6 +72,19 @@ export function Navbar() {
           </NavLink>
 
           <NavLink
+            to="/kmp"
+            className={({ isActive }) =>
+              `px-3 py-1.5 rounded-lg text-sm transition-colors no-underline ${
+                isActive
+                  ? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
+                  : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+              }`
+            }
+          >
+            {t("nav.kmp")}
+          </NavLink>
+
+          <NavLink
             to="/mst"
             className={({ isActive }) =>
               `px-3 py-1.5 rounded-lg text-sm transition-colors no-underline ${
