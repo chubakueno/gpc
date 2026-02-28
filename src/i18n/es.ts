@@ -42,8 +42,23 @@ export const translations: Record<TranslationKey, string> = {
   "hashing.normal.final": "Hash final",
 
   // Rolling hash demo
-  "hashing.rolling.title": "Hash Rolling — Ventana Deslizante",
-  "hashing.rolling.desc": "Calcula eficientemente el hash de cada subcadena de longitud k en O(n) total. Elimina el carácter saliente y agrega el entrante.",
+  "hashing.rolling.title": "Hash Rolling",
+  "hashing.rolling.desc": "Dos enfoques: construye arreglos de hash de prefijos para consultas O(1), o usa la ventana deslizante clásica para hashear cada subcadena de longitud fija.",
+  "hashing.rolling.tab.prefix": "Hash de Prefijos",
+  "hashing.rolling.tab.sliding": "Ventana Deslizante",
+
+  // Rolling hash — modo prefijo
+  "hashing.rolling.prefix.input.label": "Cadena de entrada",
+  "hashing.rolling.prefix.phase.build": "Fase 1: Construir Arreglos",
+  "hashing.rolling.prefix.phase.query": "Fase 2: Consultar Subcadena",
+  "hashing.rolling.prefix.h.label": "H[ ] — hashes de prefijo",
+  "hashing.rolling.prefix.pw.label": "pw[ ] — potencias de la base",
+  "hashing.rolling.prefix.query.l": "Izquierda l",
+  "hashing.rolling.prefix.query.r": "Derecha r",
+  "hashing.rolling.prefix.query.substring": "Subcadena",
+  "hashing.rolling.prefix.query.result": "Resultado",
+
+  // Rolling hash — modo ventana deslizante
   "hashing.rolling.input.label": "Cadena de entrada",
   "hashing.rolling.window.label": "Tamaño de ventana k",
   "hashing.rolling.base.label": "Base",

@@ -40,8 +40,23 @@ export const translations = {
   "hashing.normal.final": "Final hash",
 
   // Rolling hash demo
-  "hashing.rolling.title": "Rolling Hash — Sliding Window",
-  "hashing.rolling.desc": "Efficiently compute the hash of every substring of length k in O(n) total. Remove the outgoing character, add the incoming one.",
+  "hashing.rolling.title": "Rolling Hash",
+  "hashing.rolling.desc": "Two approaches: build prefix hash arrays for O(1) substring queries, or use the classic sliding window to hash every substring of a fixed length.",
+  "hashing.rolling.tab.prefix": "Prefix Hashes",
+  "hashing.rolling.tab.sliding": "Sliding Window",
+
+  // Rolling hash — prefix mode
+  "hashing.rolling.prefix.input.label": "Input string",
+  "hashing.rolling.prefix.phase.build": "Phase 1: Build Arrays",
+  "hashing.rolling.prefix.phase.query": "Phase 2: Query Substring",
+  "hashing.rolling.prefix.h.label": "H[ ] — prefix hashes",
+  "hashing.rolling.prefix.pw.label": "pw[ ] — base powers",
+  "hashing.rolling.prefix.query.l": "Left l",
+  "hashing.rolling.prefix.query.r": "Right r",
+  "hashing.rolling.prefix.query.substring": "Substring",
+  "hashing.rolling.prefix.query.result": "Result",
+
+  // Rolling hash — sliding window mode
   "hashing.rolling.input.label": "Input string",
   "hashing.rolling.window.label": "Window size k",
   "hashing.rolling.base.label": "Base",
