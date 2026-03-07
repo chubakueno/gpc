@@ -100,6 +100,7 @@ export function Navbar() {
               { to: "/hashing", label: t("nav.hashing") },
               { to: "/kmp",     label: t("nav.kmp") },
               { to: "/trie",    label: t("nav.trie") },
+              { to: "/zfunc",  label: t("nav.zfunc") },
             ]}
           />
 

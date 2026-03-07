@@ -8,7 +8,8 @@ const HashingPage = lazy(() => import("@/components/hashing/HashingPage"));
 const UFDSPage = lazy(() => import("@/components/ufds/UFDSPage"));
 const MSTPage  = lazy(() => import("@/components/mst/MSTPage"));
 const TriePage = lazy(() => import("@/components/trie/TriePage"));
-const KMPPage  = lazy(() => import("@/components/kmp/KMPPage"));
+const KMPPage    = lazy(() => import("@/components/kmp/KMPPage"));
+const ZFuncPage  = lazy(() => import("@/components/zfunc/ZFuncPage"));
 
 function Layout() {
   return (
@@ -36,7 +37,8 @@ const router = createBrowserRouter([
       { path: "/ufds", element: <UFDSPage /> },
       { path: "/mst",  element: <MSTPage /> },
       { path: "/trie", element: <TriePage /> },
-      { path: "/kmp",  element: <KMPPage /> },
+      { path: "/kmp",    element: <KMPPage /> },
+      { path: "/zfunc",  element: <ZFuncPage /> },
     ],
   },
 ]);
