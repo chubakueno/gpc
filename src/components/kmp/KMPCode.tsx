@@ -45,8 +45,8 @@ vector<int> kmpSearch(const string& T, const string& P) {
 }
 
 int main() {
-    string T = "aababacababaca";
-    string P = "ababaca";
+    string T = "aababacabababa";
+    string P = "ababa";
 
     auto pos = kmpSearch(T, P);
     cout << "Matches at: ";
@@ -113,7 +113,7 @@ int main() {
     cout << period("aabaab")   << "\\n";  // 3  (period "aab")
     cout << period("abcde")    << "\\n";  // 5  (no shorter period)
 
-    auto m = kmpConcat("aababacababaca", "ababaca");
+    auto m = kmpConcat("aababacabababa", "ababa");
     for (int p : m) cout << p << " ";    // 1 7
     cout << "\\n";
 }`;

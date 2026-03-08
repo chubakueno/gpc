@@ -5,8 +5,8 @@ import { TabGroup } from "@/components/shared/TabGroup";
 import { computeKMPFrames, computeFailFrames } from "./kmpOps";
 import type { KMPFrame, FailFrame } from "@/types/kmp";
 
-const DEFAULT_TEXT    = "aababacababaca";
-const DEFAULT_PATTERN = "ababaca";
+const DEFAULT_TEXT    = "aababacabababa";
+const DEFAULT_PATTERN = "ababa";
 const CELL_W = 32; // px per character cell
 const INTERVAL = 650;
 
