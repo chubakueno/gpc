@@ -101,6 +101,7 @@ export function Navbar() {
               { to: "/kmp",     label: t("nav.kmp") },
               { to: "/trie",    label: t("nav.trie") },
               { to: "/zfunc",  label: t("nav.zfunc") },
+              { to: "/sa",     label: t("nav.sa") },
             ]}
           />
 
