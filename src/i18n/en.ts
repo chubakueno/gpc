@@ -463,6 +463,7 @@ export const translations = {
   "zfunc.demo.string.label": "string s",
   "zfunc.demo.table.label": "Z-array (· = not yet computed)",
   "zfunc.demo.zbox.label": "Z-box",
+  "zfunc.demo.zbox.empty": "empty (not yet established)",
 
   "zfunc.legend.current":  "Current i",
   "zfunc.legend.zbox":     "Inside Z-box",

@@ -26,7 +26,7 @@ function cellState(pos: number, frame: ZFrame): CellState {
     if (action === "cache")           return "compare";
   }
   if (pos === i && action !== "set") return "current";
-  if (r > l && pos >= l && pos <= r) return "zbox";
+  if (l > 0 && pos >= l && pos <= r) return "zbox";
   return "default";
 }
 
@@ -180,14 +180,36 @@ export function ZFuncDemo() {
                 state={frame ? cellState(i, frame) : "default"} />
             ))}
           </div>
+          {/* L / R markers */}
+          {frame && frame.action !== "start" && frame.action !== "done" && (
+            <div className="flex flex-nowrap mt-0.5">
+              {Array.from(str).map((_, i) => {
+                const isL = i === frame.l;
+                const isR = i === frame.r;
+                const label = isL && isR ? "[l=r]" : isL ? "[l" : isR ? "r]" : "";
+                return (
+                  <div key={i} className="flex items-center justify-center text-[10px] font-mono font-bold"
+                    style={{ width: CELL_W, color: label ? "var(--color-accent-2)" : "transparent" }}>
+                    {label || "·"}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Z-box info */}
-        {frame && frame.r > frame.l && (
+        {frame && frame.action !== "start" && frame.action !== "done" && (
           <div className="text-xs font-mono text-[var(--color-accent-2)]">
             {t("zfunc.demo.zbox.label")}:&nbsp;
-            <span className="font-bold">[{frame.l}, {frame.r}]</span>
-            <span className="text-[var(--color-muted)]"> — s[{frame.l}..{frame.r}] matches s[0..{frame.r - frame.l}]</span>
+            {frame.l > 0 ? (
+              <>
+                <span className="font-bold">[{frame.l}, {frame.r}]</span>
+                <span className="text-[var(--color-muted)]"> — s[{frame.l}..{frame.r}] = s[0..{frame.r - frame.l}]</span>
+              </>
+            ) : (
+              <span className="text-[var(--color-muted)]">{t("zfunc.demo.zbox.empty")}</span>
+            )}
           </div>
         )}
 

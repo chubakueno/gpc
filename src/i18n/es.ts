@@ -465,6 +465,7 @@ export const translations: Record<TranslationKey, string> = {
   "zfunc.demo.string.label": "cadena s",
   "zfunc.demo.table.label": "Arreglo Z (· = aún no calculado)",
   "zfunc.demo.zbox.label": "Z-caja",
+  "zfunc.demo.zbox.empty": "vacía (aún no establecida)",
 
   "zfunc.legend.current":  "Posición actual i",
   "zfunc.legend.zbox":     "Dentro de la Z-caja",
