@@ -91,34 +91,6 @@ export default function HomePage() {
           </Link>
 
           <Link
-            to="/trie"
-            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-warn)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-warn)]/10"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[var(--color-warn)]/20 flex items-center justify-center mb-4">
-              <span className="text-[var(--color-warn)] text-xl font-mono">T*</span>
-            </div>
-            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-warn)] transition-colors">
-              {t("home.card.trie.title")}
-            </h2>
-            <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
-              {t("home.card.trie.desc")}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {["O(L) Insert", "Autocomplete", "XOR Trie"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="mt-4 text-sm text-[var(--color-warn)] font-medium">
-              {t("home.explore")}
-            </div>
-          </Link>
-
-          <Link
             to="/zfunc"
             className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-accent-3)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-accent-3)]/10"
           >
@@ -147,26 +119,29 @@ export default function HomePage() {
           </Link>
 
           <Link
-            to="/sa"
-            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-accent)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-accent)]/10"
+            to="/trie"
+            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-warn)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-warn)]/10"
           >
-            <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/20 flex items-center justify-center mb-4">
-              <span className="text-[var(--color-accent)] text-xl font-mono">SA</span>
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-warn)]/20 flex items-center justify-center mb-4">
+              <span className="text-[var(--color-warn)] text-xl font-mono">T*</span>
             </div>
-            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
-              {t("home.card.sa.title")}
+            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-warn)] transition-colors">
+              {t("home.card.trie.title")}
             </h2>
             <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
-              {t("home.card.sa.desc")}
+              {t("home.card.trie.desc")}
             </p>
             <div className="flex flex-wrap gap-2">
-              {["O(N log² N)", "O(N log N)", "O(N) SA-IS*"].map((tag) => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]">
+              {["O(L) Insert", "Autocomplete", "XOR Trie"].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]"
+                >
                   {tag}
                 </span>
               ))}
             </div>
-            <div className="mt-4 text-sm text-[var(--color-accent)] font-medium">
+            <div className="mt-4 text-sm text-[var(--color-warn)] font-medium">
               {t("home.explore")}
             </div>
           </Link>
@@ -186,6 +161,31 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-2">
               {["O(N+M)", "Multi-pattern", "Automaton"].map((tag) => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 text-sm text-[var(--color-accent)] font-medium">
+              {t("home.explore")}
+            </div>
+          </Link>
+
+          <Link
+            to="/sa"
+            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-accent)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-accent)]/10"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/20 flex items-center justify-center mb-4">
+              <span className="text-[var(--color-accent)] text-xl font-mono">SA</span>
+            </div>
+            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+              {t("home.card.sa.title")}
+            </h2>
+            <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
+              {t("home.card.sa.desc")}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {["O(N log² N)", "O(N log N)", "O(N) SA-IS*"].map((tag) => (
                 <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]">
                   {tag}
                 </span>
