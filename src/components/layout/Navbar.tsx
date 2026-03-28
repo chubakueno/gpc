@@ -102,6 +102,7 @@ export function Navbar() {
               { to: "/trie",    label: t("nav.trie") },
               { to: "/zfunc",  label: t("nav.zfunc") },
               { to: "/sa",     label: t("nav.sa") },
+              { to: "/ac",     label: t("nav.ac") },
             ]}
           />
 

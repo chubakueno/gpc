@@ -11,6 +11,7 @@ const TriePage = lazy(() => import("@/components/trie/TriePage"));
 const KMPPage    = lazy(() => import("@/components/kmp/KMPPage"));
 const ZFuncPage  = lazy(() => import("@/components/zfunc/ZFuncPage"));
 const SAPage     = lazy(() => import("@/components/suffixarray/SAPage"));
+const ACPage     = lazy(() => import("@/components/ahocorasick/ACPage"));
 
 function Layout() {
   return (
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       { path: "/kmp",    element: <KMPPage /> },
       { path: "/zfunc",  element: <ZFuncPage /> },
       { path: "/sa",     element: <SAPage /> },
+      { path: "/ac",     element: <ACPage /> },
     ],
   },
 ]);
