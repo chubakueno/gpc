@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 import { SectionCard } from "@/components/layout/SectionCard";
+import { StepControls } from "@/components/shared/StepControls";
 import { computeACFrames, layoutAC, getPath, NODE_R } from "./acOps";
 import type { ACFrame } from "@/types/ahocorasick";
 
@@ -416,6 +417,18 @@ export function ACDemo() {
         </div>
       ) : (
         <>
+          <StepControls
+            isPlaying={playing}
+            isAtEnd={step >= total - 1}
+            stepIdx={step}
+            totalSteps={total}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onNext={() => { setPlaying(false); setStep(s => Math.min(total - 1, s + 1)); }}
+            onPrev={() => { setPlaying(false); setStep(s => Math.max(0, s - 1)); }}
+            onReset={() => { setStep(0); setPlaying(false); }}
+          />
+
           {/* SVG visualization */}
           <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 overflow-auto"
             style={{ minHeight: 200 }}>
@@ -459,37 +472,6 @@ export function ACDemo() {
             style={{ borderColor: "var(--color-accent)", color: "var(--color-accent)", background: "var(--color-surface)" }}
           >
             {frame ? frame.message : ""}
-          </div>
-
-          {/* Controls */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <button
-              onClick={() => { setPlaying(false); setStep(0); }}
-              disabled={step <= 0}
-              className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default"
-            >|◀</button>
-            <button
-              onClick={() => { setPlaying(false); setStep((s) => Math.max(0, s - 1)); }}
-              disabled={step <= 0}
-              className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default"
-            >{t("controls.prev")}</button>
-            <button
-              onClick={() => setPlaying((p) => !p)}
-              disabled={step >= total - 1}
-              className="px-4 py-1.5 rounded-lg text-sm font-medium bg-[var(--color-accent)]/20 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30 disabled:opacity-30 cursor-pointer disabled:cursor-default"
-            >
-              {playing ? t("controls.pause") : t("controls.play")}
-            </button>
-            <button
-              onClick={() => { setPlaying(false); setStep((s) => Math.min(total - 1, s + 1)); }}
-              disabled={step >= total - 1}
-              className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default"
-            >{t("controls.step")}</button>
-            <span className="text-xs text-[var(--color-muted)] ml-1">
-              {t("controls.step.of")
-                .replace("{n}", String(step + 1))
-                .replace("{total}", String(total))}
-            </span>
           </div>
         </>
       )}

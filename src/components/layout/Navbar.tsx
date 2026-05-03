@@ -103,6 +103,7 @@ export function Navbar() {
               { to: "/zfunc",  label: t("nav.zfunc") },
               { to: "/sa",     label: t("nav.sa") },
               { to: "/ac",     label: t("nav.ac") },
+              { to: "/st",     label: t("nav.st") },
             ]}
           />
 

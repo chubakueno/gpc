@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 
 interface StepControlsProps {
@@ -26,6 +27,17 @@ export function StepControls({
   className = "",
 }: StepControlsProps) {
   const { t } = useLang();
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (document.activeElement as HTMLElement)?.tagName ?? "";
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "ArrowLeft")  { e.preventDefault(); onPrev(); }
+      if (e.key === "ArrowRight") { e.preventDefault(); if (!isAtEnd) onNext(); }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onPrev, onNext, isAtEnd]);
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>

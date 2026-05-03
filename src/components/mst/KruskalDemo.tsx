@@ -126,6 +126,19 @@ export function KruskalDemo() {
         </button>
       </div>
 
+      <StepControls
+        isPlaying={isPlaying}
+        isAtEnd={isAtEnd}
+        stepIdx={stepIdx}
+        totalSteps={totalSteps}
+        onPlay={play}
+        onPause={pause}
+        onNext={next}
+        onPrev={prev}
+        onReset={reset}
+        className="mb-6"
+      />
+
       {/* Main layout: graph + sorted edge list */}
       <div className="flex flex-col lg:flex-row gap-6 mb-6">
         {/* SVG Graph */}
@@ -219,17 +232,6 @@ export function KruskalDemo() {
         </div>
       </div>
 
-      <StepControls
-        isPlaying={isPlaying}
-        isAtEnd={isAtEnd}
-        stepIdx={stepIdx}
-        totalSteps={totalSteps}
-        onPlay={play}
-        onPause={pause}
-        onNext={next}
-        onPrev={prev}
-        onReset={reset}
-      />
     </SectionCard>
   );
 }

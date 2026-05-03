@@ -83,6 +83,19 @@ export function NormalHashDemo() {
         </div>
       </div>
 
+      <StepControls
+        isPlaying={isPlaying}
+        isAtEnd={isAtEnd}
+        stepIdx={stepIdx}
+        totalSteps={totalSteps}
+        onPlay={play}
+        onPause={pause}
+        onNext={next}
+        onPrev={prev}
+        onReset={reset}
+        className="mb-6"
+      />
+
       {/* Character boxes */}
       <div className="flex flex-wrap gap-2 mb-6">
         {(input || "hello").split("").map((ch, i) => (
@@ -157,17 +170,6 @@ export function NormalHashDemo() {
         </div>
       )}
 
-      <StepControls
-        isPlaying={isPlaying}
-        isAtEnd={isAtEnd}
-        stepIdx={stepIdx}
-        totalSteps={totalSteps}
-        onPlay={play}
-        onPause={pause}
-        onNext={next}
-        onPrev={prev}
-        onReset={reset}
-      />
     </SectionCard>
   );
 }

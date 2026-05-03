@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 import { SectionCard } from "@/components/layout/SectionCard";
 import { TabGroup } from "@/components/shared/TabGroup";
+import { StepControls } from "@/components/shared/StepControls";
 import { computeKMPFrames, computeFailFrames } from "./kmpOps";
 import type { KMPFrame, FailFrame } from "@/types/kmp";
 
@@ -165,6 +166,18 @@ function SearchTab({ text, pattern }: { text: string; pattern: string }) {
 
   return (
     <div className="space-y-4">
+      <StepControls
+        isPlaying={playing}
+        isAtEnd={idx >= frames.length - 1}
+        stepIdx={idx}
+        totalSteps={frames.length}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onNext={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }}
+        onPrev={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }}
+        onReset={() => { setIdx(0); setPlaying(false); }}
+      />
+
       {/* Visualization */}
       <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 overflow-x-auto">
         <p className="text-xs text-[var(--color-muted)] mb-2 font-mono">{t("kmp.demo.text.label")}</p>
@@ -195,23 +208,6 @@ function SearchTab({ text, pattern }: { text: string; pattern: string }) {
       <div className="px-3 py-2 rounded-lg border text-sm font-mono min-h-[2.2rem]"
         style={{ borderColor: statusColor, color: statusColor, background: "var(--color-surface)" }}>
         {frame ? frame.message : t("kmp.demo.hint")}
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <button onClick={() => setIdx(0)} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">|◀</button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.prev")}</button>
-        <button onClick={() => playing ? setPlaying(false) : setPlaying(true)} disabled={idx >= frames.length - 1}
-          className="px-4 py-1.5 rounded-lg text-sm font-medium bg-[var(--color-accent)]/20 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30 disabled:opacity-30 cursor-pointer disabled:cursor-default">
-          {playing ? t("controls.pause") : t("controls.play")}
-        </button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }} disabled={idx >= frames.length - 1}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.step")}</button>
-        <span className="text-xs text-[var(--color-muted)] ml-1">
-          {t("controls.step.of").replace("{n}", String(idx + 1)).replace("{total}", String(frames.length))}
-        </span>
       </div>
 
       {/* Fail table */}
@@ -294,6 +290,18 @@ function FailureTab({ pattern }: { pattern: string }) {
 
   return (
     <div className="space-y-4">
+      <StepControls
+        isPlaying={playing}
+        isAtEnd={idx >= frames.length - 1}
+        stepIdx={idx}
+        totalSteps={frames.length}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onNext={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }}
+        onPrev={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }}
+        onReset={() => { setIdx(0); setPlaying(false); }}
+      />
+
       <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 overflow-x-auto">
         <p className="text-xs text-[var(--color-muted)] mb-2 font-mono">{t("kmp.fail.pattern.label")}</p>
         <div className="flex flex-nowrap mb-4">
@@ -330,23 +338,6 @@ function FailureTab({ pattern }: { pattern: string }) {
       <div className="px-3 py-2 rounded-lg border text-sm font-mono min-h-[2.2rem]"
         style={{ borderColor: statusColor, color: statusColor, background: "var(--color-surface)" }}>
         {frame ? frame.message : t("kmp.demo.hint")}
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <button onClick={() => setIdx(0)} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">|◀</button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.prev")}</button>
-        <button onClick={() => playing ? setPlaying(false) : setPlaying(true)} disabled={idx >= frames.length - 1}
-          className="px-4 py-1.5 rounded-lg text-sm font-medium bg-[var(--color-accent)]/20 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30 disabled:opacity-30 cursor-pointer disabled:cursor-default">
-          {playing ? t("controls.pause") : t("controls.play")}
-        </button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }} disabled={idx >= frames.length - 1}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.step")}</button>
-        <span className="text-xs text-[var(--color-muted)] ml-1">
-          {t("controls.step.of").replace("{n}", String(idx + 1)).replace("{total}", String(frames.length))}
-        </span>
       </div>
     </div>
   );

@@ -6,9 +6,10 @@ import { TabGroup } from "@/components/shared/TabGroup";
 
 const CODE_AC = `#include <bits/stdc++.h>
 using namespace std;
+#define ALPHA 26
 
 struct AhoCorasick {
-    vector<array<int,26>> go;
+    vector<array<int,ALPHA>> go;
     vector<int> fail, dict, output;
     // output[v] = pattern index ending at v (-1 if none)
 
@@ -43,7 +44,7 @@ struct AhoCorasick {
     void build() {
         queue<int> q;
         // Root's children: fail -> root
-        for (int c = 0; c < 26; c++) {
+        for (int c = 0; c < ALPHA; c++) {
             if (go[0][c] == -1) {
                 go[0][c] = 0; // make root a "goto" for missing chars
             } else {
@@ -55,7 +56,7 @@ struct AhoCorasick {
             int u = q.front(); q.pop();
             // dict link: nearest terminal via fail chain
             dict[u] = (output[fail[u]] != -1) ? fail[u] : dict[fail[u]];
-            for (int c = 0; c < 26; c++) {
+            for (int c = 0; c < ALPHA; c++) {
                 if (go[u][c] == -1) {
                     // "compressed" goto: follow fail to find a c-transition
                     go[u][c] = go[fail[u]][c];
@@ -74,8 +75,8 @@ struct AhoCorasick {
         for (int i = 0; i < (int)text.size(); i++) {
             cur = go[cur][text[i] - 'a'];
             // Report matches: cur itself + dict link chain
-            for (int v = cur; v > 0; v = dict[v]) {
-                if (output[v] == -1) break;
+            if (output[cur]>=0) cb(i - (int)pats[output[cur]].size() + 1, output[cur]);
+            for (int v = dict[cur]; v > 0; v = dict[v]) {
                 cb(i - (int)pats[output[v]].size() + 1, output[v]);
             }
         }

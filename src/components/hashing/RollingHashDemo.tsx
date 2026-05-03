@@ -112,6 +112,18 @@ function PrefixHashTab() {
         </div>
       </div>
 
+      <StepControls
+        isPlaying={isPlaying}
+        isAtEnd={isAtEnd}
+        stepIdx={stepIdx}
+        totalSteps={totalSteps}
+        onPlay={play}
+        onPause={pause}
+        onNext={next}
+        onPrev={prev}
+        onReset={reset}
+      />
+
       {/* Phase indicator */}
       <div className="flex items-center gap-2">
         <span className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
@@ -210,19 +222,6 @@ function PrefixHashTab() {
           <MathBlock math={frame.pwFormula} />
         </div>
       )}
-
-      {/* Step controls */}
-      <StepControls
-        isPlaying={isPlaying}
-        isAtEnd={isAtEnd}
-        stepIdx={stepIdx}
-        totalSteps={totalSteps}
-        onPlay={play}
-        onPause={pause}
-        onNext={next}
-        onPrev={prev}
-        onReset={reset}
-      />
 
       {/* Query panel — shown after build is complete */}
       {buildDone && frame && (
@@ -387,6 +386,18 @@ function SlidingWindowTab() {
         </div>
       </div>
 
+      <StepControls
+        isPlaying={isPlaying}
+        isAtEnd={isAtEnd}
+        stepIdx={stepIdx}
+        totalSteps={totalSteps}
+        onPlay={play}
+        onPause={pause}
+        onNext={next}
+        onPrev={prev}
+        onReset={reset}
+      />
+
       {/* String visualization */}
       <div className="flex flex-wrap gap-1.5 select-none">
         {str.split("").map((ch, i) => {
@@ -469,17 +480,6 @@ function SlidingWindowTab() {
         </div>
       )}
 
-      <StepControls
-        isPlaying={isPlaying}
-        isAtEnd={isAtEnd}
-        stepIdx={stepIdx}
-        totalSteps={totalSteps}
-        onPlay={play}
-        onPause={pause}
-        onNext={next}
-        onPrev={prev}
-        onReset={reset}
-      />
     </div>
   );
 }

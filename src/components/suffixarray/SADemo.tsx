@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 import { SectionCard } from "@/components/layout/SectionCard";
+import { StepControls } from "@/components/shared/StepControls";
 import { computeSAFrames, computeLCP } from "./saOps";
 import type { SAFrame } from "@/types/suffixarray";
 
@@ -143,6 +144,18 @@ export function SADemo() {
         {error && <p className="text-xs text-[var(--color-danger)] mt-2">{error}</p>}
       </div>
 
+      <StepControls
+        isPlaying={playing}
+        isAtEnd={idx >= frames.length - 1}
+        stepIdx={idx}
+        totalSteps={frames.length}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onNext={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }}
+        onPrev={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }}
+        onReset={() => { setIdx(0); setPlaying(false); }}
+      />
+
       {/* Suffix table */}
       {frame && (
         <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-1">
@@ -176,23 +189,6 @@ export function SADemo() {
       <div className="px-3 py-2 rounded-lg border text-sm font-mono min-h-[2.2rem]"
         style={{ borderColor: sc, color: sc, background: "var(--color-surface)" }}>
         {frame ? frame.message : t("sa.demo.hint")}
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <button onClick={() => setIdx(0)} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">|◀</button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.max(0, i - 1)); }} disabled={idx <= 0}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.prev")}</button>
-        <button onClick={() => setPlaying(p => !p)} disabled={idx >= frames.length - 1}
-          className="px-4 py-1.5 rounded-lg text-sm font-medium bg-[var(--color-accent)]/20 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/30 disabled:opacity-30 cursor-pointer disabled:cursor-default">
-          {playing ? t("controls.pause") : t("controls.play")}
-        </button>
-        <button onClick={() => { setPlaying(false); setIdx(i => Math.min(frames.length - 1, i + 1)); }} disabled={idx >= frames.length - 1}
-          className="px-3 py-1.5 rounded-lg text-sm border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)] disabled:opacity-30 cursor-pointer disabled:cursor-default">{t("controls.step")}</button>
-        <span className="text-xs text-[var(--color-muted)] ml-1">
-          {t("controls.step.of").replace("{n}", String(idx + 1)).replace("{total}", String(frames.length))}
-        </span>
       </div>
 
       {/* Legend */}
