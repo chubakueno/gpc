@@ -633,6 +633,7 @@ export const translations: Record<TranslationKey, string> = {
 
   "ac.code.title": "Implementación C++",
   "ac.code.tab.ac": "Aho-Corasick",
+  "ac.code.tab.alphabets": "Alfabetos Personalizados",
   "ac.code.tab.apps": "Aplicaciones",
 
   // Suffix Tree page

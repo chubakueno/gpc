@@ -6,30 +6,30 @@ import { TabGroup } from "@/components/shared/TabGroup";
 
 const CODE_AC = `#include <bits/stdc++.h>
 using namespace std;
-#define ALPHA 26
 
+// ALPHA is a compile-time constant: one contiguous allocation for all nodes.
+// toIdx maps a character to [0, ALPHA) — swap freely for any alphabet.
+template<int ALPHA>
 struct AhoCorasick {
-    vector<array<int,ALPHA>> go;
+    function<int(char)> toIdx;
+    vector<array<int, ALPHA>> go;
     vector<int> fail, dict, output;
     // output[v] = pattern index ending at v (-1 if none)
 
-    AhoCorasick() {
-        go.push_back({});
-        fill(go[0].begin(), go[0].end(), -1);
+    AhoCorasick(function<int(char)> toIdx) : toIdx(toIdx) {
+        go.emplace_back(); go.back().fill(-1);
         fail.push_back(0);
         dict.push_back(-1);
         output.push_back(-1);
     }
 
-    // Insert pattern, return terminal node id
     int insert(const string& s, int patId) {
         int cur = 0;
         for (char c : s) {
-            int ch = c - 'a';
+            int ch = toIdx(c);
             if (go[cur][ch] == -1) {
                 go[cur][ch] = go.size();
-                go.push_back({});
-                fill(go.back().begin(), go.back().end(), -1);
+                go.emplace_back(); go.back().fill(-1);
                 fail.push_back(0);
                 dict.push_back(-1);
                 output.push_back(-1);
@@ -43,10 +43,9 @@ struct AhoCorasick {
     // Build failure and dictionary links (call after all insertions)
     void build() {
         queue<int> q;
-        // Root's children: fail -> root
         for (int c = 0; c < ALPHA; c++) {
             if (go[0][c] == -1) {
-                go[0][c] = 0; // make root a "goto" for missing chars
+                go[0][c] = 0; // missing char at root loops back to root
             } else {
                 fail[go[0][c]] = 0;
                 q.push(go[0][c]);
@@ -54,12 +53,10 @@ struct AhoCorasick {
         }
         while (!q.empty()) {
             int u = q.front(); q.pop();
-            // dict link: nearest terminal via fail chain
             dict[u] = (output[fail[u]] != -1) ? fail[u] : dict[fail[u]];
             for (int c = 0; c < ALPHA; c++) {
                 if (go[u][c] == -1) {
-                    // "compressed" goto: follow fail to find a c-transition
-                    go[u][c] = go[fail[u]][c];
+                    go[u][c] = go[fail[u]][c]; // compressed goto
                 } else {
                     fail[go[u][c]] = go[fail[u]][c];
                     q.push(go[u][c]);
@@ -68,24 +65,23 @@ struct AhoCorasick {
         }
     }
 
-    // Search text, call cb(pos, patId) for each match ending at pos
     void search(const string& text, const vector<string>& pats,
                 function<void(int,int)> cb) {
         int cur = 0;
         for (int i = 0; i < (int)text.size(); i++) {
-            cur = go[cur][text[i] - 'a'];
-            // Report matches: cur itself + dict link chain
-            if (output[cur]>=0) cb(i - (int)pats[output[cur]].size() + 1, output[cur]);
-            for (int v = dict[cur]; v > 0; v = dict[v]) {
-                cb(i - (int)pats[output[v]].size() + 1, output[v]);
-            }
+            cur = go[cur][toIdx(text[i])];
+            for (int v = cur; v > 0; v = dict[v])
+                if (output[v] >= 0)
+                    cb(i - (int)pats[output[v]].size() + 1, output[v]);
         }
     }
+
 };
 
 int main() {
+    AhoCorasick<26> ac([](char c) { return c - 'a'; });
+
     vector<string> patterns = {"he", "she", "his", "hers"};
-    AhoCorasick ac;
     for (int i = 0; i < (int)patterns.size(); i++)
         ac.insert(patterns[i], i);
     ac.build();
@@ -101,14 +97,90 @@ int main() {
     return 0;
 }`;
 
+const CODE_ALPHABETS = `#include <bits/stdc++.h>
+using namespace std;
+// (AhoCorasick<ALPHA> struct as above)
+
+// ALPHA must be known at compile time — that's what gives us the contiguous
+// vector<array<int,ALPHA>> layout. toIdx is the only runtime part.
+
+// ── 1. Lowercase English ────────────────────────────────────────────────────
+AhoCorasick<26> makeLower() {
+    return AhoCorasick<26>([](char c) { return c - 'a'; });
+}
+
+// ── 2. Case-insensitive ASCII letters ──────────────────────────────────────
+AhoCorasick<26> makeCaseInsensitive() {
+    return AhoCorasick<26>([](char c) { return tolower(c) - 'a'; });
+}
+
+// ── 3. DNA alphabet {A, C, G, T} ───────────────────────────────────────────
+AhoCorasick<4> makeDNA() {
+    return AhoCorasick<4>([](char c) -> int {
+        switch (c) {
+            case 'A': return 0; case 'C': return 1;
+            case 'G': return 2; case 'T': return 3;
+            default:  return 0;
+        }
+    });
+}
+
+// ── 4. Custom symbol set (ALPHA = number of distinct symbols, compile-time) ──
+// Build a 256-entry lookup table so toIdx stays O(1).
+// idx.fill(0) means any character NOT in symbols falls back to slot 0.
+// Put your "catch-all" symbol (e.g. space) first to exploit this.
+template<int ALPHA>
+AhoCorasick<ALPHA> makeCustom(const string& symbols) {
+    // symbols.size() must equal ALPHA
+    array<int, 256> idx; idx.fill(0);
+    for (int i = 0; i < (int)symbols.size(); i++)
+        idx[(unsigned char)symbols[i]] = i;
+    return AhoCorasick<ALPHA>([idx](char c) { return idx[(unsigned char)c]; });
+}
+
+// ── 5. Printable ASCII (32-126) ─────────────────────────────────────────────
+AhoCorasick<95> makeASCII() {
+    return AhoCorasick<95>([](char c) { return (unsigned char)c - 32; });
+}
+
+// ── 6. Full byte alphabet (0-255) ──────────────────────────────────────────
+AhoCorasick<256> makeByte() {
+    return AhoCorasick<256>([](char c) { return (unsigned char)c; });
+}
+
+int main() {
+    // DNA example
+    auto ac_dna = makeDNA();
+    vector<string> motifs = {"GATA", "ATA", "TATA"};
+    for (int i = 0; i < (int)motifs.size(); i++) ac_dna.insert(motifs[i], i);
+    ac_dna.build();
+    string genome = "CGATATATAG";
+    ac_dna.search(genome, motifs, [&](int pos, int pid) {
+        cout << "Motif \\"" << motifs[pid] << "\\" at pos " << pos << "\\n";
+    });
+
+    // Custom alphabet: lowercase vowels + '#' sentinel (6 symbols)
+    auto ac_custom = makeCustom<6>("aeiou#");
+    vector<string> pats = {"aei", "eio", "iou"};
+    for (int i = 0; i < (int)pats.size(); i++) ac_custom.insert(pats[i], i);
+    ac_custom.build();
+    string text = "aeiou#iou";
+    ac_custom.search(text, pats, [&](int pos, int pid) {
+        cout << "Found \\"" << pats[pid] << "\\" at pos " << pos << "\\n";
+    });
+    return 0;
+}`;
+
 const CODE_APPS = `#include <bits/stdc++.h>
 using namespace std;
 
 // (AhoCorasick struct as above)
 
+auto lower26 = [](char c) { return c - 'a'; };
+
 // 1. Count occurrences of each pattern in text
 vector<int> countOccurrences(const string& text, const vector<string>& pats) {
-    AhoCorasick ac;
+    AhoCorasick<26> ac(lower26);
     for (int i = 0; i < (int)pats.size(); i++) ac.insert(pats[i], i);
     ac.build();
     vector<int> cnt(pats.size(), 0);
@@ -118,7 +190,7 @@ vector<int> countOccurrences(const string& text, const vector<string>& pats) {
 
 // 2. Check if any pattern appears in text (early exit)
 bool containsAny(const string& text, const vector<string>& pats) {
-    AhoCorasick ac;
+    AhoCorasick<26> ac(lower26);
     for (int i = 0; i < (int)pats.size(); i++) ac.insert(pats[i], i);
     ac.build();
     bool found = false;
@@ -128,7 +200,7 @@ bool containsAny(const string& text, const vector<string>& pats) {
 
 // 3. Find first occurrence position of any pattern
 int firstOccurrence(const string& text, const vector<string>& pats) {
-    AhoCorasick ac;
+    AhoCorasick<26> ac(lower26);
     for (int i = 0; i < (int)pats.size(); i++) ac.insert(pats[i], i);
     ac.build();
     int first = INT_MAX;
@@ -161,15 +233,20 @@ export function ACCode() {
   const [activeTab, setActiveTab] = useState("ac");
 
   const tabs = [
-    { id: "ac",   label: t("ac.code.tab.ac") },
-    { id: "apps", label: t("ac.code.tab.apps") },
+    { id: "ac",        label: t("ac.code.tab.ac") },
+    { id: "alphabets", label: t("ac.code.tab.alphabets") },
+    { id: "apps",      label: t("ac.code.tab.apps") },
   ];
+
+  const code = activeTab === "ac" ? CODE_AC
+             : activeTab === "alphabets" ? CODE_ALPHABETS
+             : CODE_APPS;
 
   return (
     <SectionCard>
       <h2 className="text-xl font-semibold text-[var(--color-text)] mb-4">{t("ac.code.title")}</h2>
       <TabGroup tabs={tabs} activeTab={activeTab} onChange={setActiveTab} className="mb-4" />
-      <CodeBlock code={activeTab === "ac" ? CODE_AC : CODE_APPS} language="cpp" />
+      <CodeBlock code={code} language="cpp" />
     </SectionCard>
   );
 }

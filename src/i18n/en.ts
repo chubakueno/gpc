@@ -631,6 +631,7 @@ export const translations = {
 
   "ac.code.title": "C++ Implementation",
   "ac.code.tab.ac": "Aho-Corasick",
+  "ac.code.tab.alphabets": "Custom Alphabets",
   "ac.code.tab.apps": "Applications",
 
   // Suffix Tree page
