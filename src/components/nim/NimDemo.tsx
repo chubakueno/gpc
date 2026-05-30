@@ -4,7 +4,9 @@ import { SectionCard } from "@/components/layout/SectionCard";
 
 // ── Game logic ─────────────────────────────────────────────────────────────────
 
-const DEFAULTS = [3, 5, 7];
+const DEFAULTS_NORMAL = [3, 5, 7];
+const DEFAULTS_MISERE  = [2, 1, 1];
+const DEFAULTS = DEFAULTS_NORMAL;
 const MIN_PILE = 0;
 const MAX_PILE = 15;
 const BITS = 4; // binary display width
@@ -33,6 +35,36 @@ function aiMove(piles: number[]): { pile: number; n: number } {
     if (target < piles[i]) return { pile: i, n: piles[i] - target };
   }
   return { pile: 0, n: 1 };
+}
+
+// Misère: last to take loses. Strategy = normal Nim EXCEPT in the endgame
+// (all piles ≤ 1), where we leave an ODD number of 1-piles instead of even.
+function misereIsWinning(piles: number[]): boolean {
+  const allSmall = piles.every((p) => p <= 1);
+  const xor = xorAll(piles);
+  return allSmall ? xor === 0 : xor !== 0;
+}
+
+function misereAIMove(piles: number[]): { pile: number; n: number } {
+  const allSmall = piles.every((p) => p <= 1);
+  if (allSmall) {
+    // N-position: even number of 1s. Take one to leave odd (P for opponent).
+    const i = piles.findIndex((p) => p === 1);
+    return { pile: i, n: 1 };
+  }
+  // Try every move; pick one that leaves a Misère P-position for the opponent.
+  for (let i = 0; i < piles.length; i++) {
+    for (let t = 1; t <= piles[i]; t++) {
+      const next = piles.map((p, j) => (j === i ? p - t : p));
+      const nextAllSmall = next.every((p) => p <= 1);
+      const nextXor = xorAll(next);
+      const nextIsP = nextAllSmall ? nextXor !== 0 : nextXor === 0;
+      if (nextIsP) return { pile: i, n: t };
+    }
+  }
+  // P-position fallback: any move
+  const i = piles.findIndex((p) => p > 0);
+  return { pile: i, n: 1 };
 }
 
 // ── Stones visual ──────────────────────────────────────────────────────────────
@@ -102,10 +134,11 @@ function PileColumn({
 
 // ── XOR table ──────────────────────────────────────────────────────────────────
 
-function XORTable({ piles }: { piles: number[] }) {
+function XORTable({ piles, misere }: { piles: number[]; misere: boolean }) {
   const { t } = useLang();
   const xorVal = xorAll(piles);
-  const isWinning = xorVal !== 0;
+  const allSmall = piles.every((p) => p <= 1);
+  const isWinning = misere ? misereIsWinning(piles) : xorVal !== 0;
 
   // Bit positions that are set in xorVal (these are the "conflicting" bits)
   const xorBits = Array.from({ length: BITS }, (_, b) => (xorVal >> (BITS - 1 - b)) & 1);
@@ -200,6 +233,13 @@ function XORTable({ piles }: { piles: number[] }) {
       >
         {isWinning ? t("nim.xor.winning") : t("nim.xor.losing")}
       </div>
+      {misere && (
+        <p className="text-xs text-[var(--color-muted)] italic">
+          {allSmall
+            ? `All piles ≤ 1 — count of 1s: ${xorVal} (${xorVal % 2 === 1 ? "odd → P" : "even → N"})`
+            : t("nim.xor.misere.note")}
+        </p>
+      )}
     </div>
   );
 }
@@ -216,14 +256,23 @@ export default function NimDemo() {
   const [phase, setPhase] = useState<Phase>("player");
   const [winner, setWinner] = useState<"player" | "ai" | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [misere, setMisere] = useState(false);
 
-  function reset() {
-    setPiles([...initPiles]);
+  function reset(pileOverride?: number[]) {
+    const start = pileOverride ?? initPiles;
+    setPiles([...start]);
     setSelected(null);
     setTakeCount(1);
     setPhase("player");
     setWinner(null);
     setLog([]);
+  }
+
+  function switchMode(newMisere: boolean) {
+    const newDefaults = newMisere ? DEFAULTS_MISERE : DEFAULTS_NORMAL;
+    setMisere(newMisere);
+    setInitPiles(newDefaults);
+    reset(newDefaults);
   }
 
   function handleSelectPile(i: number) {
@@ -240,7 +289,8 @@ export default function NimDemo() {
     setSelected(null);
     if (newPiles.every((p) => p === 0)) {
       setPhase("over");
-      setWinner("player");
+      // Misère: taking the last stone = you LOSE
+      setWinner(misere ? "ai" : "player");
     } else {
       setPhase("ai");
     }
@@ -250,25 +300,26 @@ export default function NimDemo() {
   useEffect(() => {
     if (phase !== "ai") return;
     const timer = setTimeout(() => {
-      const move = aiMove(piles);
+      const move = misere ? misereAIMove(piles) : aiMove(piles);
       const newPiles = piles.map((p, i) => (i === move.pile ? p - move.n : p));
       setLog((prev) => [{ who: "ai", pile: move.pile + 1, n: move.n }, ...prev]);
       setPiles(newPiles);
       if (newPiles.every((p) => p === 0)) {
         setPhase("over");
-        setWinner("ai");
+        // Misère: AI taking the last stone = AI LOSES
+        setWinner(misere ? "player" : "ai");
       } else {
         setPhase("player");
       }
     }, 700);
     return () => clearTimeout(timer);
-  }, [phase, piles]);
+  }, [phase, piles, misere]);
 
   const statusText =
     phase === "over"
       ? winner === "player"
-        ? t("nim.game.you.won")
-        : t("nim.game.ai.won")
+        ? t(misere ? "nim.game.you.won.misere" : "nim.game.you.won")
+        : t(misere ? "nim.game.ai.won.misere" : "nim.game.ai.won")
       : phase === "ai"
       ? t("nim.game.ai.turn")
       : t("nim.game.your.turn");
@@ -289,14 +340,41 @@ export default function NimDemo() {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-semibold text-[var(--color-text)] mb-1">{t("nim.game.title")}</h2>
-            <p className="text-sm text-[var(--color-muted)] max-w-xl">{t("nim.game.desc")}</p>
+            <p className="text-sm text-[var(--color-muted)] max-w-xl">
+              {misere ? t("nim.game.desc.misere") : t("nim.game.desc")}
+            </p>
           </div>
-          <button
-            onClick={reset}
-            className="flex-shrink-0 px-4 py-2 rounded-xl border border-[var(--color-border)] text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-muted)] transition-colors cursor-pointer"
-          >
-            {t("nim.game.reset")}
-          </button>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Mode toggle */}
+            <div className="flex rounded-xl border border-[var(--color-border)] overflow-hidden text-xs font-medium">
+              <button
+                onClick={() => switchMode(false)}
+                className={`px-3 py-1.5 cursor-pointer transition-colors ${
+                  !misere
+                    ? "bg-[var(--color-accent)] text-white"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                }`}
+              >
+                {t("nim.game.mode.normal")}
+              </button>
+              <button
+                onClick={() => switchMode(true)}
+                className={`px-3 py-1.5 cursor-pointer transition-colors ${
+                  misere
+                    ? "bg-[var(--color-warn)] text-white"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                }`}
+              >
+                {t("nim.game.mode.misere")}
+              </button>
+            </div>
+            <button
+              onClick={reset}
+              className="px-4 py-2 rounded-xl border border-[var(--color-border)] text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-muted)] transition-colors cursor-pointer"
+            >
+              {t("nim.game.reset")}
+            </button>
+          </div>
         </div>
 
         {/* Status */}
@@ -358,7 +436,7 @@ export default function NimDemo() {
 
       {/* XOR table */}
       <SectionCard>
-        <XORTable piles={piles} />
+        <XORTable piles={piles} misere={misere} />
       </SectionCard>
 
       {/* Customize + log */}

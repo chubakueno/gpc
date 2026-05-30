@@ -40,7 +40,55 @@ pair<int,int> nimOptimalMove(vector<int> piles) {
 // Why XOR works:
 //   - Terminal (all-zero) position has XOR = 0 → P-position ✓
 //   - Any move from XOR=0 must change one pile → new XOR ≠ 0 ✓
-//   - From XOR≠0, always exists a move to XOR=0 (see nimOptimalMove) ✓`;
+//   - From XOR≠0, always exists a move to XOR=0 (see nimOptimalMove) ✓
+
+// ── Misère Nim ────────────────────────────────────────────────────────────────
+// Same rules, but the player who takes the LAST stone LOSES.
+//
+// Theorem: (n₁, …, nₖ) is a P-position (current player loses) iff:
+//   (a) All piles ≤ 1  AND  the count of non-empty piles is ODD, OR
+//   (b) Some pile ≥ 2  AND  XOR of all piles = 0.
+//
+// Strategy: identical to normal Nim EXCEPT when all remaining piles are ≤ 1.
+//   - Normal Nim endgame: leave an EVEN number of 1-piles (XOR = 0).
+//   - Misère Nim endgame: leave an ODD  number of 1-piles (opponent takes last).
+
+bool misereIsWinning(const vector<int>& piles) {
+    bool allSmall = all_of(piles.begin(), piles.end(), [](int x){ return x <= 1; });
+    int xorSum = 0;
+    for (int p : piles) xorSum ^= p;
+    // allSmall: P-position iff XOR ≠ 0 (i.e., odd 1-piles)  →  N-position iff XOR = 0
+    return allSmall ? (xorSum == 0) : (xorSum != 0);
+}
+
+// Find optimal Misère move: {pile_index, stones_to_take}
+pair<int,int> misereOptimalMove(const vector<int>& piles) {
+    bool allSmall = all_of(piles.begin(), piles.end(), [](int x){ return x <= 1; });
+
+    if (allSmall) {
+        // N-position (even 1-piles): take one → leaves odd for opponent (P).
+        for (int i = 0; i < (int)piles.size(); i++)
+            if (piles[i]) return {i, 1};
+    }
+
+    // Try every move; pick one that leaves a Misère P-position for the opponent.
+    for (int i = 0; i < (int)piles.size(); i++) {
+        for (int t = 1; t <= piles[i]; t++) {
+            vector<int> next = piles;
+            next[i] -= t;
+            bool nextSmall = all_of(next.begin(), next.end(), [](int x){ return x <= 1; });
+            int nextXor = 0;
+            for (int x : next) nextXor ^= x;
+            bool nextIsP = nextSmall ? (nextXor != 0) : (nextXor == 0);
+            if (nextIsP) return {i, t};
+        }
+    }
+
+    // P-position: forced — just take 1 from the first non-empty pile.
+    for (int i = 0; i < (int)piles.size(); i++)
+        if (piles[i]) return {i, 1};
+    return {0, 1};
+}`;
 
 const GRUNDY_CODE = `// Grundy numbers for subtraction games
 // S = set of allowed move sizes (e.g., {1, 2, 3})
