@@ -115,6 +115,13 @@ export function Navbar() {
             ]}
           />
 
+          <NavDropdown
+            label={t("nav.misc")}
+            items={[
+              { to: "/nim", label: t("nav.nim") },
+            ]}
+          />
+
           {/* Language toggle */}
           <button
             onClick={() => setLang(lang === "en" ? "es" : "en")}

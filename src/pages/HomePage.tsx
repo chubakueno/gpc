@@ -223,6 +223,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Miscellaneous */}
+      <section className="mb-12">
+        <CategoryHeading label={t("home.category.misc")} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Link
+            to="/nim"
+            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-accent-3)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-accent-3)]/10"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-accent-3)]/20 flex items-center justify-center mb-4">
+              <span className="text-[var(--color-accent-3)] text-xl font-mono">⊕</span>
+            </div>
+            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent-3)] transition-colors">
+              {t("home.card.nim.title")}
+            </h2>
+            <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
+              {t("home.card.nim.desc")}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {["Sprague-Grundy", "XOR theorem", "P/N-positions"].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 text-sm text-[var(--color-accent-3)] font-medium">
+              {t("home.explore")}
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* Graphs & Trees */}
       <section>
         <CategoryHeading label={t("home.category.graphs")} />
