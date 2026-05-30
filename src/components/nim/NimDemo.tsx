@@ -369,7 +369,7 @@ export default function NimDemo() {
               </button>
             </div>
             <button
-              onClick={reset}
+              onClick={() => reset()}
               className="px-4 py-2 rounded-xl border border-[var(--color-border)] text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-muted)] transition-colors cursor-pointer"
             >
               {t("nim.game.reset")}
@@ -466,7 +466,7 @@ export default function NimDemo() {
               </div>
             ))}
             <button
-              onClick={reset}
+              onClick={() => reset()}
               className="px-4 py-1.5 rounded-lg border border-[var(--color-border)] text-sm text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-muted)] transition-colors cursor-pointer whitespace-nowrap"
             >
               {t("nim.game.reset")}
