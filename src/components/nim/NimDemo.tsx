@@ -217,8 +217,6 @@ export default function NimDemo() {
   const [winner, setWinner] = useState<"player" | "ai" | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
 
-  const xorVal = xorAll(piles);
-
   function reset() {
     setPiles([...initPiles]);
     setSelected(null);
