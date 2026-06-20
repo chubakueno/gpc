@@ -14,6 +14,7 @@ const SAPage     = lazy(() => import("@/components/suffixarray/SAPage"));
 const ACPage     = lazy(() => import("@/components/ahocorasick/ACPage"));
 const STPage     = lazy(() => import("@/components/suffixtree/STPage"));
 const NimPage    = lazy(() => import("@/components/nim/NimPage"));
+const DPPage     = lazy(() => import("@/components/dp/DPPage"));
 
 function Layout() {
   return (
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       { path: "/ac",     element: <ACPage /> },
       { path: "/st",     element: <STPage /> },
       { path: "/nim",    element: <NimPage /> },
+      { path: "/dp",     element: <DPPage /> },
     ],
   },
 ]);

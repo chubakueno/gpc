@@ -119,6 +119,7 @@ export function Navbar() {
             label={t("nav.misc")}
             items={[
               { to: "/nim", label: t("nav.nim") },
+              { to: "/dp",  label: t("nav.dp") },
             ]}
           />
 

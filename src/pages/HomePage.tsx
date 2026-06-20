@@ -254,6 +254,34 @@ export default function HomePage() {
               {t("home.explore")}
             </div>
           </Link>
+
+          <Link
+            to="/dp"
+            className="group block rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 no-underline hover:border-[var(--color-accent)] transition-all duration-200 hover:shadow-lg hover:shadow-[var(--color-accent)]/10"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-accent)]/20 flex items-center justify-center mb-4">
+              <span className="text-[var(--color-accent)] text-xl font-mono">dp</span>
+            </div>
+            <h2 className="text-lg font-semibold text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+              {t("home.card.dp.title")}
+            </h2>
+            <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
+              {t("home.card.dp.desc")}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {["Knapsack", "LCS", "LIS", "Coin Change"].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-surface-2)] text-[var(--color-muted)] border border-[var(--color-border)]"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 text-sm text-[var(--color-accent)] font-medium">
+              {t("home.explore")}
+            </div>
+          </Link>
         </div>
       </section>
 
