@@ -908,10 +908,10 @@ export const translations = {
   "dp.code.tab.lcs": "LCS",
   "dp.code.tab.lis": "LIS",
   "dp.code.fibonacci.desc": "Three variants: top-down memoization, bottom-up tabulation, and the O(1)-space rolling-pair optimization.",
-  "dp.code.coins.desc": "Minimum coin change with solution reconstruction. Unbounded DP — each coin denomination can be reused any number of times.",
-  "dp.code.knapsack.desc": "0/1 Knapsack: 2D table, 1D space-optimized (iterate capacity backwards!), and item reconstruction.",
-  "dp.code.lcs.desc": "LCS with full 2D table, string reconstruction via backtracking, and 2-row space-optimized version.",
-  "dp.code.lis.desc": "LIS in O(n²) with reconstruction, and O(n log n) patience-sorting via binary search.",
+  "dp.code.coins.desc": "Top-down (memoized recursion) and bottom-up (tabulation) side by side, plus reconstruction of the coins used.",
+  "dp.code.knapsack.desc": "Top-down memoization and bottom-up 2D table side by side, plus 1D space-optimized version (iterate backwards!) and item reconstruction.",
+  "dp.code.lcs.desc": "Top-down memoization and bottom-up 2D table side by side, plus string reconstruction via backtracking and 2-row space-optimized version.",
+  "dp.code.lis.desc": "Top-down memoization (2D state), bottom-up O(n²) with reconstruction, and O(n log n) patience-sorting via binary search.",
 
   // Shared
   "controls.play": "Play",

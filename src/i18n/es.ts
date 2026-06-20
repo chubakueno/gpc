@@ -910,10 +910,10 @@ export const translations: Record<TranslationKey, string> = {
   "dp.code.tab.lcs": "LCS",
   "dp.code.tab.lis": "LIS",
   "dp.code.fibonacci.desc": "Tres variantes: memoización top-down, tabulación bottom-up y la optimización O(1)-espacio con par deslizante.",
-  "dp.code.coins.desc": "Cambio mínimo de monedas con reconstrucción de solución. DP no acotado — cada denominación puede reutilizarse cualquier número de veces.",
-  "dp.code.knapsack.desc": "Knapsack 0/1: tabla 2D, versión optimizada a O(W) espacio (iterar capacidad al revés) y reconstrucción de ítems.",
-  "dp.code.lcs.desc": "LCS con tabla 2D completa, reconstrucción de cadena por retroceso y versión optimizada a 2 filas.",
-  "dp.code.lis.desc": "LCS en O(n²) con reconstrucción, y enfoque O(n log n) de clasificación por paciencia con búsqueda binaria.",
+  "dp.code.coins.desc": "Top-down (recursión memoizada) y bottom-up (tabulación) lado a lado, más reconstrucción de las monedas usadas.",
+  "dp.code.knapsack.desc": "Memoización top-down y tabla 2D bottom-up lado a lado, más versión optimizada a O(W) espacio (iterar al revés) y reconstrucción de ítems.",
+  "dp.code.lcs.desc": "Memoización top-down y tabla 2D bottom-up lado a lado, más reconstrucción de la cadena por retroceso y versión optimizada a 2 filas.",
+  "dp.code.lis.desc": "Memoización top-down (estado 2D), bottom-up O(n²) con reconstrucción, y clasificación por paciencia O(n log n) con búsqueda binaria.",
 
   // Shared
   "controls.play": "Reproducir",
