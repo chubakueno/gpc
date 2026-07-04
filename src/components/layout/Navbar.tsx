@@ -112,6 +112,7 @@ export function Navbar() {
             items={[
               { to: "/ufds", label: t("nav.ufds") },
               { to: "/mst",  label: t("nav.mst") },
+              { to: "/dijkstra", label: t("nav.dijkstra") },
             ]}
           />
 
