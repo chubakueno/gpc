@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLang } from "@/i18n/LanguageContext";
 import { TabGroup } from "@/components/shared/TabGroup";
 import { DPIntro } from "./DPIntro";
+import { DPFundamentals } from "./DPFundamentals";
 import { CoinChangeDemo } from "./CoinChangeDemo";
 import { KnapsackDemo } from "./KnapsackDemo";
 import { LCSDemo } from "./LCSDemo";
@@ -14,6 +15,7 @@ export default function DPPage() {
 
   const tabs = [
     { id: "intro",    label: t("dp.tab.intro") },
+    { id: "fundamentals", label: t("dp.tab.fundamentals") },
     { id: "coins",    label: t("dp.tab.coins") },
     { id: "knapsack", label: t("dp.tab.knapsack") },
     { id: "lcs",      label: t("dp.tab.lcs") },
@@ -31,6 +33,7 @@ export default function DPPage() {
       <TabGroup tabs={tabs} activeTab={tab} onChange={setTab} className="mb-8" />
 
       {tab === "intro"    && <DPIntro />}
+      {tab === "fundamentals" && <DPFundamentals />}
       {tab === "coins"    && <CoinChangeDemo />}
       {tab === "knapsack" && <KnapsackDemo />}
       {tab === "lcs"      && <LCSDemo />}
