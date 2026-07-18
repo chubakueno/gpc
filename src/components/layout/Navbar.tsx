@@ -113,6 +113,7 @@ export function Navbar() {
               { to: "/ufds", label: t("nav.ufds") },
               { to: "/mst",  label: t("nav.mst") },
               { to: "/dijkstra", label: t("nav.dijkstra") },
+              { to: "/lca", label: t("nav.lca") },
             ]}
           />
 

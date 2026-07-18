@@ -8,6 +8,7 @@ const HashingPage = lazy(() => import("@/components/hashing/HashingPage"));
 const UFDSPage = lazy(() => import("@/components/ufds/UFDSPage"));
 const MSTPage  = lazy(() => import("@/components/mst/MSTPage"));
 const DijkstraPage = lazy(() => import("@/components/dijkstra/DijkstraPage"));
+const LCAPage = lazy(() => import("@/components/lca/LCAPage"));
 const TriePage = lazy(() => import("@/components/trie/TriePage"));
 const KMPPage    = lazy(() => import("@/components/kmp/KMPPage"));
 const ZFuncPage  = lazy(() => import("@/components/zfunc/ZFuncPage"));
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: "/ufds", element: <UFDSPage /> },
       { path: "/mst",  element: <MSTPage /> },
       { path: "/dijkstra", element: <DijkstraPage /> },
+      { path: "/lca", element: <LCAPage /> },
       { path: "/trie", element: <TriePage /> },
       { path: "/kmp",    element: <KMPPage /> },
       { path: "/zfunc",  element: <ZFuncPage /> },
